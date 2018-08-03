@@ -2,12 +2,13 @@ package main
 
 import (
 	"fmt"
-	"github.com/mileusna/crontab"
 	"time"
+	"unsafe"
+
+	"github.com/mileusna/crontab"
 )
 
 func periodicFunc(tick time.Time) {
-	fmt.Println("Tick at: ", tick)
 }
 func main() {
 	ctab := crontab.New()
@@ -18,6 +19,8 @@ func main() {
 		periodicFunc(t)
 	}
 }
-func myFunc2(){
-	println("hell yeah")
+func myFunc2() {
+	var buffer [100 * 1024 * 1024]string
+	fmt.Printf("The size of the buffer is: %d bytes\n", unsafe.Sizeof(buffer))
+	time.Sleep(300 * time.Second)
 }
