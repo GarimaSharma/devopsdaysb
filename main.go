@@ -20,9 +20,16 @@ func main() {
 }
 
 func getDetails(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode("hellooooo 👋")
-	json.NewEncoder(w).Encode(r.RemoteAddr)
-	json.NewEncoder(w).Encode(timesRequestBy(r.RemoteAddr))
+	if timesRequestBy(r.RemoteAddr) < 5 {
+		json.NewEncoder(w).Encode("hellooooo 👋")
+	} else {
+		w.WriteHeader(http.StatusInternalServerError)
+		w.Write([]byte("500 - Something bad happened!"))
+	}
+
+	//json.NewEncoder(w).Encode(timesRequestBy(r.RemoteAddr))
+
+	//	var SkipRouter = errors.New("skip this router")
 }
 
 func timesRequestBy(remoteAddr string) int {
