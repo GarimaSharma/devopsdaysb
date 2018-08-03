@@ -3,8 +3,8 @@ package main
 import (
 	"encoding/json"
 	"log"
-	// "fmt"
 	"net/http"
+	"strings"
 
 	"github.com/gorilla/mux"
 )
@@ -20,7 +20,9 @@ func main() {
 }
 
 func getDetails(w http.ResponseWriter, r *http.Request) {
-	if timesRequestBy(r.RemoteAddr) < 5 {
+	var addr = strings.Split(r.RemoteAddr, ":")[0]
+	println(addr)
+	if timesRequestBy(addr) < 5 {
 		json.NewEncoder(w).Encode("hellooooo 👋")
 	} else {
 		w.WriteHeader(http.StatusInternalServerError)
