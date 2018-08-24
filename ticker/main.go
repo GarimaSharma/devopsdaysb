@@ -13,7 +13,7 @@ func periodicFunc(tick time.Time) {
 func main() {
 	ctab := crontab.New()
 
-	ctab.MustAddJob("* * * * *", myFunc2)
+	ctab.MustAddJob("0 3 * * *", myFunc2)
 
 	for t := range time.NewTicker(2 * time.Second).C {
 		periodicFunc(t)

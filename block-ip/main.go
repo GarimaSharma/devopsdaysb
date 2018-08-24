@@ -16,7 +16,7 @@ func main() {
 	times = make(map[string]int)
 
 	router.HandleFunc("/hello", getDetails).Methods("GET")
-	log.Fatal(http.ListenAndServe(":8000", router))
+	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
 func getDetails(w http.ResponseWriter, r *http.Request) {
@@ -28,10 +28,6 @@ func getDetails(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("500 - Something bad happened!"))
 	}
-
-	//json.NewEncoder(w).Encode(timesRequestBy(r.RemoteAddr))
-
-	//	var SkipRouter = errors.New("skip this router")
 }
 
 func timesRequestBy(remoteAddr string) int {

@@ -62,8 +62,8 @@ resource "google_compute_http_health_check" "prod-lb-public" {
   request_path        = "/hello"
   check_interval_sec  = 5
   timeout_sec         = 2
-  healthy_threshold   = 1
-  unhealthy_threshold = 1
+  healthy_threshold   = 2
+  unhealthy_threshold = 2
 }
 
 resource "google_compute_backend_service" "http_lb_backend_service" {
