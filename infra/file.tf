@@ -35,7 +35,7 @@ resource "google_compute_firewall" "external" {
     protocol = "tcp"
   }
 
-  target_tags = ["prod-vms"]
+  target_tags = ["production"]
 }
 
 resource "google_compute_global_address" "prod-lb" {
