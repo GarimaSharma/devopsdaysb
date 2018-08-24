@@ -50,6 +50,8 @@ resource "google_compute_instance_group" "httplb" {
   zone        = "us-central1-a"
   instances = [
     "${google_compute_instance.app_server_cert_issue.self_link}",
+    "${google_compute_instance.app_server_ip_issue.self_link}",
+    "${google_compute_instance.app_server_cron_app.self_link}",
   ]
 
 }
