@@ -60,10 +60,10 @@ resource "google_compute_http_health_check" "prod-lb-public" {
   name                = "prod-lb-public"
   port                = 8080
   request_path        = "/hello"
-  check_interval_sec  = 5
-  timeout_sec         = 3
-  healthy_threshold   = 6
-  unhealthy_threshold = 3
+  check_interval_sec  = 1
+  timeout_sec         = 1
+  healthy_threshold   = 1
+  unhealthy_threshold = 1
 }
 
 resource "google_compute_backend_service" "http_lb_backend_service" {
