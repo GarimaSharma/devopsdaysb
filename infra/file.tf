@@ -48,6 +48,10 @@ resource "google_compute_instance_group" "httplb" {
   name        = "httpslb"
   description = "terraform generated instance group that is multi-zone for https loadbalancing"
   zone        = "us-central1-a"
+  instances = [
+    "${google_compute_instance.app_server_cert_issue.self_link}",
+  ]
+
 }
 
 resource "google_compute_http_health_check" "prod-lb-public" {
@@ -96,8 +100,8 @@ resource "google_compute_target_https_proxy" "https_lb_proxy" {
 resource "google_compute_ssl_certificate" "cert" {
   name_prefix = "lbcert-prod-cert"
   description = "user provided ssl private key / ssl certificate pair"
-  certificate = "${file("/tmp/yoyo/mysite/garimash.com.crt")}"
-  private_key = "${file("/tmp/yoyo/mysite/garimash.com.key")}"
+  certificate = "${file("../certs/mysite/garimash.com.crt")}"
+  private_key = "${file("../certs/mysite/garimash.com.key")}"
 
   lifecycle = {
     create_before_destroy = true
@@ -129,4 +133,91 @@ resource "google_compute_global_forwarding_rule" "prod-lb-https" {
   ip_address = "${google_compute_global_address.prod-lb.address}"
   target     = "${google_compute_target_https_proxy.https_lb_proxy.self_link}"
   port_range = "443"
+}
+
+resource "google_compute_address" "app_server_cert_issue" {
+  name         = "cert-ip"
+}
+
+resource "google_compute_instance" "app_server_cert_issue" {
+  name         = "app-server-cert-issue"
+  machine_type = "n1-standard-1"
+  zone         = "us-central1-a"
+  
+  tags = ["production", "http-lb", "http-server", "https-server", "ssh-access"]
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-9"
+    }
+  }
+
+  network_interface {
+    subnetwork   = "production-subnet"
+    access_config {
+          nat_ip = "${google_compute_address.app_server_cert_issue.address}"
+    }
+  }
+
+}
+
+resource "google_compute_address" "app_server_ip_issue" {
+  name         = "ip-ip"
+}
+
+resource "google_compute_instance" "app_server_ip_issue" {
+  name         = "app-server-ip-issue"
+  machine_type = "n1-standard-1"
+  zone         = "us-central1-a"
+
+  tags = ["production", "http-lb", "http-server", "https-server", "ssh-access"]
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-9"
+    }
+  }
+
+  // Local SSD disk
+  scratch_disk {
+  }
+
+  network_interface {
+    subnetwork   = "production-subnet"
+    access_config {
+              nat_ip = "${google_compute_address.app_server_ip_issue.address}"
+        }
+  }
+
+}
+
+
+resource "google_compute_address" "app_server_cron_issue" {
+  name         = "cron-ip"
+}
+
+resource "google_compute_instance" "app_server_cron_app" {
+  name         = "app-server-cron-app"
+  machine_type = "n1-standard-1"
+  zone         = "us-central1-a"
+
+  tags = ["production", "http-lb", "http-server", "https-server", "ssh-access"]
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-9"
+    }
+  }
+
+  // Local SSD disk
+  scratch_disk {
+  }
+
+  network_interface {
+    subnetwork   = "production-subnet"
+        access_config {
+                  nat_ip = "${google_compute_address.app_server_cron_issue.address}"
+            }
+  }
+
 }
