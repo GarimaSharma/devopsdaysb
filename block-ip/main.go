@@ -25,6 +25,7 @@ func getDetails(w http.ResponseWriter, r *http.Request) {
 	if timesRequestBy(addr) < 5 {
 		json.NewEncoder(w).Encode("hellooooo 👋")
 	} else {
+		println("too many requests from %s. Rejecting it from now on", addr)
 		w.WriteHeader(http.StatusInternalServerError)
 		w.Write([]byte("500 - Something bad happened!"))
 	}
