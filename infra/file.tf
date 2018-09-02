@@ -59,7 +59,7 @@ resource "google_compute_instance_group" "httplb" {
 resource "google_compute_http_health_check" "prod-lb-public" {
   name                = "prod-lb-public"
   port                = 8080
-  request_path        = "/hello"
+  request_path        = "/healthcheck"
   check_interval_sec  = 5
   timeout_sec         = 2
   healthy_threshold   = 2
