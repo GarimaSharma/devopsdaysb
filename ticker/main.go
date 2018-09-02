@@ -15,7 +15,7 @@ func main() {
 
 	ctab.MustAddJob("0 3 * * *", myFunc2)
 
-	for t := range time.NewTicker(2 * time.Second).C {
+	for t := range time.NewTicker(5 * time.Second).C {
 		periodicFunc(t)
 	}
 }
