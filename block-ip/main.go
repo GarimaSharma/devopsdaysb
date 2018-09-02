@@ -28,11 +28,13 @@ func getHealth(w http.ResponseWriter, r *http.Request) {
 func getDetails(w http.ResponseWriter, r *http.Request) {
 	var addr = strings.Split(r.RemoteAddr, ":")[0]
 	println(addr)
-	if timesRequestBy(addr) < 5 {
-		json.NewEncoder(w).Encode("You dragon count is", timesRequestBy(addr))
+	count := timesRequestBy(addr)
+	if count < 5 {
+		json.NewEncoder(w).Encode("You dragon count is ")
+		json.NewEncoder(w).Encode(count)
 	} else if timesRequestBy(addr) == 50 {
 		println("Throtling requests from %s. Accepting from now on", addr)
-		times[remoteAddr] = 1
+		times[addr] = 1
 	} else {
 		println("too many requests from %s. Rejecting it from now on", addr)
 		w.WriteHeader(http.StatusTooManyRequests)
