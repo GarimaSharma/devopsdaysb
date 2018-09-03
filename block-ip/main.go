@@ -23,6 +23,7 @@ func main() {
 
 func getHealth(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("Healthy")
+	w.WriteHeader(http.StatusOK)
 }
 
 func getDetails(w http.ResponseWriter, r *http.Request) {
@@ -32,8 +33,10 @@ func getDetails(w http.ResponseWriter, r *http.Request) {
 	if count < 5 {
 		json.NewEncoder(w).Encode("You dragon count is ")
 		json.NewEncoder(w).Encode(count)
+		w.WriteHeader(http.StatusOK)
 	} else if timesRequestBy(addr) == 50 {
 		println("Throtling requests from %s. Accepting from now on", addr)
+		w.WriteHeader(http.StatusOK)
 		times[addr] = 1
 	} else {
 		println("too many requests from %s. Rejecting it from now on", addr)
@@ -43,6 +46,7 @@ func getDetails(w http.ResponseWriter, r *http.Request) {
 }
 func sayHello(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode("hello 👋, Welcome to World of Dragons!")
+	w.WriteHeader(http.StatusOK)
 }
 
 func timesRequestBy(remoteAddr string) int {
