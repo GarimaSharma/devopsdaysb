@@ -142,7 +142,7 @@ resource "google_compute_address" "app_server_cert_issue" {
 }
 
 resource "google_compute_instance" "app_server_cert_issue" {
-  name         = "app-server-cert-issue"
+  name         = "app3"
   machine_type = "n1-standard-1"
   zone         = "us-central1-a"
   
@@ -168,7 +168,7 @@ resource "google_compute_address" "app_server_ip_issue" {
 }
 
 resource "google_compute_instance" "app_server_ip_issue" {
-  name         = "app-server-ip-issue"
+  name         = "app2"
   machine_type = "n1-standard-1"
   zone         = "us-central1-a"
 
@@ -199,7 +199,7 @@ resource "google_compute_address" "app_server_cron_issue" {
 }
 
 resource "google_compute_instance" "app_server_cron_app" {
-  name         = "app-server-cron-app"
+  name         = "app1"
   machine_type = "n1-standard-1"
   zone         = "us-central1-a"
 
