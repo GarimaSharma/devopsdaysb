@@ -106,8 +106,8 @@ resource "google_compute_target_https_proxy" "https_lb_proxy" {
 resource "google_compute_ssl_certificate" "cert" {
   name_prefix = "lbcert-prod-cert"
   description = "user provided ssl private key / ssl certificate pair"
-  certificate = "${file("../certs/mysite/garimash.com.crt")}"
-  private_key = "${file("../certs/mysite/garimash.com.key")}"
+  certificate = "${file("../certs/dragonworld/dragonworld.crt")}"
+  private_key = "${file("../certs/dragonworld/dragonworld.key")}"
 
   lifecycle = {
     create_before_destroy = true
