@@ -19,6 +19,7 @@ func main() {
 		periodicFunc(t)
 	}
 }
+//This is chaos monkey trying to increase the memory of system
 func myFunc2() {
 	var buffer [100 * 1024 * 1024]string
 	fmt.Printf("The size of the buffer is: %d bytes\n", unsafe.Sizeof(buffer))

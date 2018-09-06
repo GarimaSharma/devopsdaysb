@@ -17,36 +17,39 @@ func main() {
 
 	router.HandleFunc("/", sayHello).Methods("GET")
 	router.HandleFunc("/healthcheck", getHealth).Methods("GET")
-	router.HandleFunc("/getDragonCount", getDetails).Methods("GET")
+	router.HandleFunc("/getdragoncount", getDragonCount).Methods("GET")
 	log.Fatal(http.ListenAndServe(":8080", router))
 }
 
 func getHealth(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode("Healthy")
 	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode("Healthy")
+	log.Println("health check sent as healthy")
 }
 
-func getDetails(w http.ResponseWriter, r *http.Request) {
+func getDragonCount(w http.ResponseWriter, r *http.Request) {
 	var addr = strings.Split(r.RemoteAddr, ":")[0]
 	println(addr)
 	count := timesRequestBy(addr)
 	if count < 5 {
-		json.NewEncoder(w).Encode("You dragon count is ")
+		w.WriteHeader(http.StatusOK)
+		json.NewEncoder(w).Encode("Your dragon count is ")
 		json.NewEncoder(w).Encode(count)
-		w.WriteHeader(http.StatusOK)
+		log.Println("dragon count request responded.")
 	} else if timesRequestBy(addr) == 50 {
-		println("Throtling requests from %s. Accepting from now on", addr)
 		w.WriteHeader(http.StatusOK)
+		log.Println("Throttling requests from and accepting from now on for", addr)
 		times[addr] = 1
 	} else {
-		println("too many requests from %s. Rejecting it from now on", addr)
 		w.WriteHeader(http.StatusTooManyRequests)
+		log.Println("Rejecting reuests because it is too many from", addr)
 		w.Write([]byte("429 - too many requests"))
 	}
 }
 func sayHello(w http.ResponseWriter, r *http.Request) {
-	json.NewEncoder(w).Encode("hello 👋, Welcome to World of Dragons!")
 	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode("hello 👋, Welcome to World of Dragons!")
+	log.Println("Hello request responded")
 }
 
 func timesRequestBy(remoteAddr string) int {
