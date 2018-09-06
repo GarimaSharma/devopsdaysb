@@ -46,6 +46,10 @@ resource "google_compute_instance_group" "httplb" {
   // Count based on number of AZs
   count       = 1
   name        = "httpslb"
+  named_port {
+      name = "http"
+      port = "8080"
+    }
   description = "terraform generated instance group that is multi-zone for https loadbalancing"
   zone        = "us-central1-a"
   instances = [
