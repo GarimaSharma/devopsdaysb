@@ -1,2 +1,2 @@
-echo "sending email now."
+echo "sending email now." > /var/log/emailer.log
 # dummy code for sending email. Assume that it always works.

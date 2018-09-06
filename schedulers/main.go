@@ -25,9 +25,9 @@ func main() {
 
 	ctab := crontab.New()
 
-	ctab.MustAddJob("0 15 * * *", myFunc2)
+	 ctab.MustAddJob("0 13 * * *", myFunc2)
 
-	for t := range time.NewTicker(10 * time.Second).C {
+	for t := range time.NewTicker(10 * time.Minute).C {
 		periodicFunc(t)
 	}
 
