@@ -223,3 +223,33 @@ resource "google_compute_instance" "app_server_cron_app" {
   }
 
 }
+
+resource "google_compute_address" "pressurevm" {
+  name         = "pressurevm"
+}
+
+resource "google_compute_instance" "pressurevm" {
+  name         = "lbvm"
+  machine_type = "n1-standard-1"
+  zone         = "us-central1-a"
+
+  tags = ["production", "http-lb", "http-server", "https-server", "ssh-access"]
+
+  boot_disk {
+    initialize_params {
+      image = "debian-cloud/debian-9"
+    }
+  }
+
+  // Local SSD disk
+  scratch_disk {
+  }
+
+  network_interface {
+    subnetwork   = "production-subnet"
+        access_config {
+                  nat_ip = "${google_compute_address.pressurevm.address}"
+            }
+  }
+
+}

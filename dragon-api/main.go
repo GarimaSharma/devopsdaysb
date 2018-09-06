@@ -13,7 +13,7 @@ import (
 var times map[string]int
 
 func main() {
-	f, err := os.OpenFile("/var/log/scheduler.log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	f, err := os.OpenFile("/var/log/dragon-api.log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -43,12 +43,12 @@ func getDragonCount(w http.ResponseWriter, r *http.Request) {
 	var addr = strings.Split(r.RemoteAddr, ":")[0]
 	println(addr)
 	count := timesRequestBy(addr)
-	if count < 5 {
+	if count < 10 {
 		w.WriteHeader(http.StatusOK)
 		json.NewEncoder(w).Encode("Your dragon count is ")
 		json.NewEncoder(w).Encode(count)
 		log.Println("dragon count request responded.")
-	} else if timesRequestBy(addr) == 50 {
+	} else if timesRequestBy(addr) == 20 {
 		w.WriteHeader(http.StatusOK)
 		log.Println("Throttling requests from and accepting from now on for", addr)
 		times[addr] = 1
