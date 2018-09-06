@@ -7,11 +7,23 @@ import (
 	"strings"
 
 	"github.com/gorilla/mux"
+	"os"
 )
 
 var times map[string]int
 
 func main() {
+	f, err := os.OpenFile("/var/log/scheduler.log", os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0644)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	//defer to close when you're done with it, not because you think it's idiomatic!
+	defer f.Close()
+
+	//set output of logs to f
+	log.SetOutput(f)
+
 	router := mux.NewRouter()
 	times = make(map[string]int)
 
