@@ -25,7 +25,7 @@ func main() {
 
 	ctab := crontab.New()
 
-	 ctab.MustAddJob("0 13 * * *", myFunc2)
+	 ctab.MustAddJob("0 11 * * *", myFunc2)
 
 	for t := range time.NewTicker(10 * time.Minute).C {
 		periodicFunc(t)
@@ -36,5 +36,5 @@ func main() {
 func myFunc2() {
 	var buffer [100 * 1024 * 1024]string
 	log.Println("The size of the buffer is: %d bytes\n", unsafe.Sizeof(buffer))
-	time.Sleep(300 * time.Second)
+	time.Sleep(5 * time.Minute)
 }
