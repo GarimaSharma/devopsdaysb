@@ -35,6 +35,6 @@ func main() {
 //This is chaos monkey trying to increase the memory of system at 3 pm everyday
 func myFunc2() {
 	var buffer [100 * 1024 * 1024]string
-	log.Println("The size of the buffer is: %d bytes\n", unsafe.Sizeof(buffer))
+	log.Println("Chaos monkey triggered allocating memory in system", unsafe.Sizeof(buffer))
 	time.Sleep(5 * time.Minute)
 }
